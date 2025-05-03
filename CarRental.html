@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html ng-app="carRentalApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DriveAway - Your Perfect Ride Awaits</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .logo span {
+            color: #4285f4;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #4285f4;
+        }
+        
+        .user-status {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .user-status a {
+            color: #4285f4;
+            text-decoration: none;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        
+        .user-status a:hover {
+            text-decoration: underline;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            margin-top: 70px;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+            color: #fff;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        
+        .search-box {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        
+        .search-box h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+        
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .search-form input, .search-form select {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .btn {
+            background-color: #4285f4;
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        improvvisazione {
+            background-color: #3367d6;
+        }
+        
+        .btn-secondary {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #ddd;
+        }
+        
+        section {
+            padding: 80px 5%;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        section p {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 50px;
+            color: #666;
+        }
+        
+        .destination-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .destination-card {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .destination-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .destination-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .destination-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .destination-card:hover .destination-img img {
+            transform: scale(1.1);
+        }
+        
+        .destination-info {
+            padding: 20px;
+        }
+        
+        .destination-info h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .destination-info p {
+            text-align: left;
+            margin-bottom: 15px;
+            color: #666;
+        }
+        
+        .rating {
+            margin-bottom: 15px;
+            color: #ffc107;
+        }
+        
+        .price {
+            font-size: 20px;
+            font-weight: 600;
+            color: #4285f4;
+            margin-bottom: 15px;
+        }
+        
+        .deal-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff5722;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            margin-right: 10px;
+        }
+        
+        .discounted-price {
+            color: #4285f4;
+            font-weight: 600;
+        }
+        
+        .deal-dates {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .close:hover {
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .date-range {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .date-range span {
+            color: #666;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .confirmation-icon {
+            font-size: 48px;
+            color: #28a745;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .confirmation-details {
+            margin: 20px 0;
+        }
+        
+        .confirmation-details p {
+            margin: 10px 0;
+            text-align: left;
+        }
+        
+        .auth-toggle {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .auth-toggle a {
+            color: #4285f4;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .auth-toggle a:hover {
+            text-decoration: underline;
+        }
+        
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 60px 5% 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #bbb;
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+        }
+        
+        .footer-section a:hover {
+            color: #fff;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-icons a {
+            color: #fff;
+            font-size: 20px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+            color: #bbb;
+        }
+        
+        .testimonials {
+            background-color: #f9f9f9;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+        
+        .author-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .author-info h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .author-info p {
+            text-align: left;
+            color: #777;
+            margin: 0;
+        }
+        
+        .features {
+            background-color: #fff;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: #4285f4;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            text-align: center;
+            margin: 0;
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 15px 5%;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px 10px;
+            }
+            
+            .hero {
+                height: auto;
+                padding: 100px 5% 60px;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .section-title {
+                font-size: 30px;
+            }
+            
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body ng-controller="CarRentalController">
+    <header>
+        <div class="logo">Drive<span>Away</span></div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#vehicles">Vehicles</a></li>
+                <li><a href="#deals">Deals</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="user-status">
+            <span ng-if="!currentUser">Not logged in</span>
+            <span ng-if="currentUser">Welcome, {{currentUser.name}}</span>
+            <a ng-if="!currentUser" ng-click="showLoginForm()">Login</a>
+            <a ng-if="!currentUser" ng-click="showRegisterForm()">Register</a>
+            <a ng-if="currentUser" ng-click="logout()">Logout</a>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Find the Perfect Car for Your Journey</h1>
+            <p>Explore a wide range of rental cars at unbeatable prices with 24/7 customer support</p>
+            <div class="search-box">
+                <h2>Search for Rental Cars</h2>
+                <form class="search-form" ng-submit="searchCars()">
+                    <input type="text" placeholder="Pick-up Location" ng-model="searchQuery.location" required>
+                    <select ng-model="searchQuery.type">
+                        <option value="">All Types</option>
+                        <option value="suv">SUV</option>
+                        <option value="sedan">Sedan</option>
+                        <option value="compact">Compact</option>
+                        <option value="luxury">Luxury</option>
+                        <option value="convertible">Convertible</option>
+                    </select>
+                    <input type="date" placeholder="Pick-up Date" ng-model="searchQuery.pickUp" required>
+                    <input type="date" placeholder="Drop-off Date" ng-model="searchQuery.dropOff" required>
+                    <button type="submit" class="btn">Search</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="destinations" id="vehicles">
+        <h2 class="section-title">Available Cars</h2>
+        <p>Choose from our top-rated cars for every kind of trip</p>
+        <div class="destination-grid">
+            <div class="destination-card" ng-repeat="car in featuredCars">
+                <div class="destination-img">
+                    <img ng-src="{{car.image}}" alt="{{car.name}}">
+                </div>
+                <div class="destination-info">
+                    <h3>{{car.name}}</h3>
+                    <p>{{car.description}}</p>
+                    <div class="rating">
+                        <span ng-repeat="star in [1,2,3,4,5]">
+                            <i class="fas fa-star" ng-if="star <= car.rating"></i>
+                            <i class="far fa-star" ng-if="star > car.rating"></i>
+                        </span>
+                        <span>({{car.reviews}} reviews)</span>
+                    </div>
+                    <div class="price">From ₹{{car.price * 83}}/day</div>
+                    <button class="btn" ng-click="checkLoginAndBook(car)">Rent Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="deals" id="deals">
+        <h2 class="section-title">Special Deals</h2>
+        <p>Take advantage of our limited-time offers and save on your next rental</p>
+        <div class="destination-grid">
+            <div class="destination-card" ng-repeat="deal in specialDeals">
+                <div class="destination-img">
+                    <img ng-src="{{deal.image}}" alt="{{deal.name}}">
+                    <div class="deal-badge">SAVE {{deal.discount}}%</div>
+                </div>
+                <div class="destination-info">
+                    <h3>{{deal.name}}</h3>
+                    <p>{{deal.description}}</p>
+                    <div class="price">
+                        <span class="original-price">₹{{deal.originalPrice * 83}}/day</span>
+                        <span class="discounted-price">₹{{deal.price * 83}}/day</span>
+                    </div>
+                    <div class="deal-dates">Valid until {{deal.validUntil | date:'MMM d, y'}}</div>
+                    <button class="btn" ng-click="checkLoginAndBook(deal)">Get This Deal</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <h2 class="section-title">Why Choose DriveAway</h2>
+        <p>We're committed to providing the best car rental experience</p>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <h3>Wide Selection</h3>
+                <p>Choose from hundreds of vehicles to match your needs and budget</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <h3>Best Prices</h3>
+                <p>Guaranteed lowest prices with no hidden fees</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3>24/7 Support</h3>
+                <p>Our customer service team is always ready to help</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Full Insurance</h3>
+                <p>Comprehensive         </div>
+    </section>
+
+    <section class="testimonials" id="testimonials">
+        <h2 class="section-title">What Our Customers Say</h2>
+        <p>Hear from travelers who have experienced DriveAway</p>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-text">
+                    "The rental process was seamless and the car was in perfect condition. Will definitely use DriveAway again for my next trip!"
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-img">
+                        <img src="https://plus.unsplash.com/premium_photo-1682089810582-f7b200217b67?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW5kaWFuJTIwZ2lybHxlbnwwfHwwfHx8MA%3D%3D" alt="Saara J">
+                    </div>
+                    <div class="author-info">
+                        <h4>Saara J</h4>
+                        <p>Business Traveler</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-text">
+                    "Great prices and excellent customer service. The SUV we rented was perfect for our family vacation."
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-img">
+                        <img src="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW5kaWFuJTIwbWFufGVufDB8fDB8fHww" alt="Puneeth T">
+                    </div>
+                    <div class="author-info">
+                        <h4>Puneeth T</h4>
+                        <p>Family Vacationer</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-text">
+                    "I rent cars frequently for work and DriveAway consistently provides the best experience and most reliable vehicles."
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-img">
+                        <img src="https://t3.ftcdn.net/jpg/02/81/81/86/360_F_281818663_XXRCNuGktKeZsnknqWkKI0rR4JPWui3H.jpg" alt="Lisa P">
+                    </div>
+                    <div class="author-info">
+                        <h4>Lisa P</h4>
+                        <p>Frequent Renter</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal" ng-if="showLogin">
+        <div class="modal-content">
+            <span class="close" ng-click="closeLoginForm()">&times;</span>
+            <h2>Login</h2>
+            <form ng-submit="login()">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" ng-model="loginForm.email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" ng-model="loginForm.password" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn">Login</button>
+                    <button type="button" class="btn btn-secondary" ng-click="closeLoginForm()">Cancel</button>
+                </div>
+            </form>
+            <div class="auth-toggle">
+                Don't have an account? <a ng-click="showRegisterForm()">Register</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" ng-if="showRegister">
+        <div class="modal-content">
+            <span class="close" ng-click="closeRegisterForm()">&times;</span>
+            <h2>Register</h2>
+            <form ng-submit="register()">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" ng-model="registerForm.name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" ng-model="registerForm.email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" ng-model="registerForm.password" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" ng-model="registerForm.phone" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn">Register</button>
+                    <button type="button" class="btn btn-secondary" ng-click="closeRegisterForm()">Cancel</button>
+                </div>
+            </form>
+            <div class="auth-toggle">
+                Already have an account? <a ng-click="showLoginForm()">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" ng-if="showBooking">
+        <div class="modal-content">
+            <span class="close" ng-click="closeBookingForm()">&times;</span>
+            <h2>Rent {{selectedCar.name}}</h2>
+            <form ng-submit="submitBooking()">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" ng-model="bookingForm.name" ng-value="currentUser.name" required readonly>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" ng-model="bookingForm.email" ng-value="currentUser.email" required readonly>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" ng-model="bookingForm.phone" ng-value="currentUser.phone" required readonly>
+                </div>
+                <div class="form-group">
+                    <label>Rental Dates</label>
+                    <div class="date-range">
+                        <input type="date" ng-model="bookingForm.pickUp" required>
+                        <span>to</span>
+                        <input type="date" ng-model="bookingForm.dropOff" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Pick-up Location</label>
+                    <input type="text" ng-model="bookingForm.pickupLocation" required>
+                </div>
+                <div class="form-group">
+                    <label>Driver Age</label>
+                    <input type="number" min="21" max="80" ng-model="bookingForm.age" required>
+                </div>
+                <div class="form-group">
+                    <label>Insurance Option</label>
+                    <select ng-model="bookingForm.insurance" required>
+                        <option value="basic">Basic Coverage (₹1245/day)</option>
+                        <option value="premium">Premium Coverage (₹2075/day)</option>
+                        <option value="none">Decline Coverage (Not Recommended)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Special Requests</label>
+                    <textarea ng-model="bookingForm.requests" placeholder="Child seat, GPS, etc."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" ng-click="closeBookingForm()">Cancel</button>
+                    <button type="submit" class="btn">Proceed to Payment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" ng-if="showPayment">
+        <div class="modal-content">
+            <span class="close" ng-click="closePaymentForm()">&times;</span>
+            <h2>Payment for {{selectedCar.name}}</h2>
+            <div class="confirmation-details">
+                <h3>Rental Details</h3>
+                <p><strong>Vehicle:</strong> {{selectedCar.name}}</p>
+                <p><strong>Rental Period:</strong> {{bookingForm.pickUp | date:'MMM d, y'}} to {{bookingForm.dropOff | date:'MMM d, y'}}</p>
+                <p><strong>Pick-up Location:</strong> {{bookingForm.pickupLocation}}</p>
+                <p><strong>Base Price:</strong> ₹{{basePrice * 83}}</p>
+                <p><strong>Insurance Cost:</strong> ₹{{insuranceCost * 83}}</p>
+                <p><strong>Total Cost:</strong> ₹{{totalPrice * 83}}</p>
+            </div>
+            <form ng-submit="submitPayment()">
+                <div class="form-group">
+                    <label>Cardholder Name</label>
+                    <input type="text" ng-model="paymentForm.cardholderName" required>
+                </div>
+                <div class="form-group">
+                    <label>Card Number</label>
+                    <input type="text" ng-model="paymentForm.cardNumber" maxlength="16" required>
+                </div>
+                <div class="form-group">
+                    <label>Expiration Date</label>
+                    <div class="date-range">
+                        <input type="text" placeholder="MM" ng-model="paymentForm.expMonth" maxlength="2" style="width: 60px;" required>
+                        <span>/</span>
+                        <input type="text" placeholder="YY" ng-model="paymentForm.expYear" maxlength="2" style="width: 60px;" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>CVV</label>
+                    <input type="text" ng-model="paymentForm.cvv" maxlength="3" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" ng-click="closePaymentForm()">Cancel</button>
+                    <button type="submit" class="btn">Pay Now</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" ng-if="showConfirmation">
+        <div class="modal-content">
+            <span class="close" ng-click="closeConfirmation()">&times;</span>
+            <div class="confirmation-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Booking Confirmed!</h2>
+            <p>Thank you for choosing DriveAway. Your rental has been confirmed.</p>
+            <div class="confirmation-details">
+                <h3>Rental Details</h3>
+                <p><strong>Vehicle:</strong> {{confirmationDetails.carName}}</p>
+                <p><strong>Rental Period:</strong> {{confirmationDetails.pickUp | date:'MMM d, y'}} to {{confirmationDetails.dropOff | date:'MMM d, y'}}</p>
+                <p><strong>Pick-up Location:</strong> {{confirmationDetails.pickupLocation}}</p>
+                <p><strong>Total Cost:</strong> ₹{{confirmationDetails.totalPrice * 83}}</p>
+                <p><strong>Confirmation #:</strong> {{confirmationDetails.confirmationNumber}}</p>
+            </div>
+            <p>A confirmation email has been sent to {{confirmationDetails.email}}</p>
+            <button class="btn" ng-click="closeConfirmation()">Close</button>
+        </div>
+    </div>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About DriveAway</h3>
+                <p>We offer quality vehicles and unbeatable rental deals for your travels with locations in over 50 cities nationwide.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#home">Home</a>
+                <a href="#vehicles">Vehicles</a>
+                <a href="#deals">Deals</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="#">Rental Policies</a>
+                <a href="#">FAQ</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 456 Auto Drive, Suite 200, Yelahanka, Bengaluru</p>
+                <p><i class="fas fa-phone"></i> +91 7837484723</p>
+                <p><i class="fas fa-envelope"></i> <a href="mailto:support@driveaway.in">support@driveaway.in</a></p>
+                <p><i class="fas fa-clock"></i> 24/7 Customer Support</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 DriveAway. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+        </div>
+    </footer>
+
+    <script>
+        angular.module('carRentalApp', [])
+        .controller('CarRentalController', function($scope) {
+            // Initialize featured cars
+            $scope.featuredCars = [
+                {
+                    id: 1,
+                    name: "Toyota RAV4",
+                    description: "Reliable SUV perfect for family trips and adventures with plenty of cargo space.",
+                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS46mNuYNjdAzZQ6Jtj9Z8P0nIPHBXwYA50Aw&s",
+                    rating: 5,
+                    reviews: 128,
+                    price: 75,
+                    type: "suv",
+                    features: ["5 seats", "Automatic transmission", "Bluetooth", "Backup camera"]
+                },
+                {
+                    id: 2,
+                    name: "Honda Civic",
+                    description: "Economical and stylish, ideal for city drives with excellent fuel efficiency.",
+                    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbWjLLkHF4PPig0ihSUGtK7ZLf1gPqXeKREw&s",
+                    rating: 4,
+                    reviews: 215,
+                    price: 30,
+                    type: "compact",
+                    features: ["5 seats", "Automatic transmission", "Apple CarPlay", "Great MPG"]
+                },
+                {
+                    id: 3,
+                    name: "BMW 5 Series",
+                    description: "Luxury and performance for premium travel with all the latest technology.",
+                    image: "https://www.bmw.cc/content/dam/bmw/common/all-models/5-series/sedan/2023/ice2_Titan-Bronze_810-501.png",
+                    rating: 5,
+                    reviews: 89,
+                    price: 150,
+                    type: "luxury",
+                    features: ["5 seats", "Automatic transmission", "Leather seats", "Navigation system"]
+                },
+                {
+                    id: 4,
+                    name: "Tata Nexon EV",
+                    description: "Iconic Electric SUV car for an unforgettable driving experience.",
+                    image: "https://english.cdn.zeenews.com/sites/default/files/2023/09/07/1277268-tata-nexon.ev.jpg",
+                    rating: 4,
+                    reviews: 76,
+                    price: 90,
+                    type: "convertible",
+                    features: ["4 seats", "Manual transmission", "Convertible top", "Premium sound"]
+                },
+                {
+                    id: 5,
+                    name: "Mahindra Thar",
+                    description: "Spacious 4x4 Offroader comfortably seat up to 8 passengers with ample cargo room.",
+                    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Mahindra_Thar_Photoshoot_At_Perupalem_Beach_%28West_Godavari_District%2CAP%2CIndia_%29_Djdavid.jpg/1200px-Mahindra_Thar_Photoshoot_At_Perupalem_Beach_%28West_Godavari_District%2CAP%2CIndia_%29_Djdavid.jpg",
+                    rating: 4,
+                    reviews: 62,
+                    price: 95,
+                    type: "suv",
+                    features: ["8 seats", "Automatic transmission", "DVD entertainment", "Towing package"]
+                },
+                {
+                    id: 6,
+                    name: "Hyundai Creta",
+                    description: "Popular family SUV vehicle with cutting-edge technology and instant acceleration.",
+                    image: "https://trident-group.s3.ap-south-1.amazonaws.com/hyundai/models/colors/1705922962.png",
+                    rating: 5,
+                    reviews: 143,
+                    price: 75,
+                    type: "SUV",
+                    features: ["5 seats", "Autopilot", "Touchscreen controls", "250+ mile range"]
+                }
+            ];
+
+            // Initialize special deals
+            $scope.specialDeals = [
+                {
+                    id: 101,
+                    name: "Weekend Getaway Special",
+                    description: "Rent any compact car for the weekend and save big!",
+                    image: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1350&q=80",
+                    price: 50,
+                    originalPrice: 70,
+                    discount: 20,
+                    validUntil: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+                    type: "compact"
+                },
+                {
+                    id: 102,
+                    name: "Family Vacation Package",
+                    description: "Perfect for family trips - SUVs at discounted rates",
+                    image: "https://www.godigit.com/content/dam/godigit/directportal/en/road-trip-with-family.jpg",
+                    price: 85,
+                    originalPrice: 120,
+                    discount: 30,
+                    validUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+                    type: "suv"
+                },
+                {
+                    id: 103,
+                    name: "Luxury Experience Deal",
+                    description: "Treat yourself to premium vehicles at special rates",
+                    image: "https://cheetah.cherishx.com/uploads/145675785973237.jpg",
+                    price: 100,
+                    originalPrice: 150,
+                    discount: 20,
+                    validUntil: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000),
+                    type: "luxury"
+                }
+            ];
+
+            // Authentication
+            $scope.currentUser = null;
+            $scope.users = []; // Simulated user database
+            $scope.showLogin = false;
+            $scope.showRegister = false;
+            $scope.loginForm = { email: '', password: '' };
+            $scope.registerForm = { name: '', email: '', password: '', phone: '' };
+
+            $scope.showLoginForm = function() {
+                $scope.showLogin = true;
+                $scope.showRegister = false;
+            };
+
+            $scope.showRegisterForm = function() {
+                $scope.showRegister = true;
+                $scope.showLogin = false;
+            };
+
+            $scope.closeLoginForm = function() {
+                $scope.showLogin = false;
+                $scope.loginForm = { email: '', password: '' };
+            };
+
+            $scope.closeRegisterForm = function() {
+                $scope.showRegister = false;
+                $scope.registerForm = { name: '', email: '', password: '', phone: '' };
+            };
+
+            $scope.login = function() {
+                const user = $scope.users.find(u => u.email === $scope.loginForm.email && u.password === $scope.loginForm.password);
+                if (user) {
+                    $scope.currentUser = user;
+                    $scope.closeLoginForm();
+                    if ($scope.selectedCar) {
+                        $scope.showBookingForm($scope.selectedCar);
+                    }
+                } else {
+                    alert('Invalid email or password');
+                }
+            };
+
+            $scope.register = function() {
+                if ($scope.users.some(u => u.email === $scope.registerForm.email)) {
+                    alert('Email already registered');
+                    return;
+                }
+                const newUser = {
+                    name: $scope.registerForm.name,
+                    email: $scope.registerForm.email,
+                    password: $scope.registerForm.password,
+                    phone: $scope.registerForm.phone
+                };
+                $scope.users.push(newUser);
+                $scope.currentUser = newUser;
+                $scope.closeRegisterForm();
+                if ($scope.selectedCar) {
+                    $scope.showBookingForm($scope.selectedCar);
+                }
+            };
+
+            $scope.logout = function() {
+                $scope.currentUser = null;
+                $scope.closeBookingForm();
+                $scope.closePaymentForm();
+                $scope.closeConfirmation();
+            };
+
+            // Search functionality
+            $scope.searchQuery = {
+                location: '',
+                type: '',
+                pickUp: '',
+                dropOff: ''
+            };
+
+            $scope.searchCars = function() {
+                alert('Searching for cars in ' + $scope.searchQuery.location +
+                      ' of type ' + $scope.searchQuery.type +
+                      ' from ' + $scope.searchQuery.pickUp +
+                      ' to ' + $scope.searchQuery.dropOff);
+            };
+
+            // Booking functionality
+            $scope.bookings = []; // Store bookings
+            $scope.showBooking = false;
+            $scope.showPayment = false;
+            $scope.showConfirmation = false;
+            $scope.selectedCar = {};
+            $scope.bookingForm = {
+                name: '',
+                email: '',
+                phone: '',
+                pickUp: '',
+                dropOff: '',
+                pickupLocation: '',
+                age: 25,
+                insurance: 'basic',
+                requests: ''
+            };
+            $scope.paymentForm = {
+                cardholderName: '',
+                cardNumber: '',
+                expMonth: '',
+                expYear: '',
+                cvv: ''
+            };
+            $scope.confirmationDetails = {};
+            $scope.basePrice = 0;
+            $scope.insuranceCost = 0;
+            $scope.totalPrice = 0;
+
+            $scope.checkLoginAndBook = function(car) {
+                $scope.selectedCar = car;
+                if (!$scope.currentUser) {
+                    $scope.showLoginForm();
+                } else {
+                    $scope.showBookingForm(car);
+                }
+            };
+
+            $scope.showBookingForm = function(car) {
+                $scope.selectedCar = car;
+                $scope.bookingForm = {
+                    name: $scope.currentUser.name,
+                    email: $scope.currentUser.email,
+                    phone: $scope.currentUser.phone,
+                    pickUp: $scope.searchQuery.pickUp || new Date(),
+                    dropOff: $scope.searchQuery.dropOff || new Date(Date.now() + 24 * 60 * 60 * 1000),
+                    pickupLocation: $scope.searchQuery.location || 'Downtown Location',
+                    age: 25,
+                    insurance: 'basic',
+                    requests: ''
+                };
+                $scope.showBooking = true;
+            };
+
+            $scope.closeBookingForm = function() {
+                $scope.showBooking = false;
+                $scope.bookingForm = {
+                    name: $scope.currentUser ? $scope.currentUser.name : '',
+                    email: $scope.currentUser ? $scope.currentUser.email : '',
+                    phone: $scope.currentUser ? $scope.currentUser.phone : '',
+                    pickUp: '',
+                    dropOff: '',
+                    pickupLocation: '',
+                    age: 25,
+                    insurance: 'basic',
+                    requests: ''
+                };
+            };
+
+            $scope.submitBooking = function() {
+                // Calculate total price
+                const days = Math.ceil((new Date($scope.bookingForm.dropOff) - new Date($scope.bookingForm.pickUp)) / (1000 * 60 * 60 * 24));
+                $scope.basePrice = $scope.selectedCar.price * days;
+                $scope.insuranceCost = 0;
+                
+                if ($scope.bookingForm.insurance === 'basic') {
+                    $scope.insuranceCost = 15 * days;
+                } else if ($scope.bookingForm.insurance === 'premium') {
+                    $scope.insuranceCost = 25 * days;
+                }
+                
+                $scope.totalPrice = ($scope.basePrice + $scope.insuranceCost);
+                
+                $scope.showBooking = false;
+                $scope.showPayment = true;
+            };
+
+            $scope.closePaymentForm = function() {
+                $scope.showPayment = false;
+                $scope.paymentForm = {
+                    cardholderName: '',
+                    cardNumber: '',
+                    expMonth: '',
+                    expYear: '',
+                    cvv: ''
+                };
+            };
+
+            $scope.submitPayment = function() {
+    let errors = [];
+    
+    if ($scope.paymentForm.cardNumber.length !== 16) {
+        errors.push("Card number must be exactly 16 digits.");
+    }
+    if (!($scope.paymentForm.cvv.length === 3 || $scope.paymentForm.cvv.length === 4)) {
+        errors.push("CVV must be 3 or 4 digits.");
+    }
+    if (!$scope.paymentForm.expMonth.match(/^(0[1-9]|1[0-2])$/)) {
+        errors.push("Expiration month must be between 01 and 12.");
+    }
+    if (!$scope.paymentForm.expYear.match(/^\d{2}$/)) {
+        errors.push("Expiration year must be exactly 2 digits (e.g., 25).");
+    }
+
+    if (errors.length > 0) {
+        alert("Invalid payment details:\n- " + errors.join("\n- "));
+        return;
+    }
+
+    // Simulate payment processing
+    const booking = {
+        userId: $scope.currentUser.email,
+        carName: $scope.selectedCar.name,
+        pickUp: $scope.bookingForm.pickUp,
+        dropOff: $scope.bookingForm.dropOff,
+        pickupLocation: $scope.bookingForm.pickupLocation,
+        totalPrice: $scope.totalPrice,
+        confirmationNumber: 'DA-' + Math.floor(Math.random() * 1000000),
+        insurance: $scope.bookingForm.insurance,
+        createdAt: new Date()
+    };
+    $scope.bookings.push(booking);
+
+    $scope.confirmationDetails = {
+        carName: $scope.selectedCar.name,
+        pickUp: $scope.bookingForm.pickUp,
+        dropOff: $scope.bookingForm.dropOff,
+        pickupLocation: $scope.bookingForm.pickupLocation,
+        totalPrice: $scope.totalPrice,
+        email: $scope.currentUser.email,
+        confirmationNumber: booking.confirmationNumber
+    };
+    
+    $scope.showPayment = false;
+    $scope.showConfirmation = true;
+    
+    $scope.bookingForm = {
+        name: $scope.currentUser.name,
+        email: $scope.currentUser.email,
+        phone: $scope.currentUser.phone,
+        pickUp: '',
+        dropOff: '',
+        pickupLocation: '',
+        age: 25,
+        insurance: 'basic',
+        requests: ''
+    };
+    $scope.paymentForm = {
+        cardholderName: '',
+        cardNumber: '',
+        expMonth: '',
+        expYear: '',
+        cvv: ''
+    };
+};
+
+            $scope.closeConfirmation = function() {
+                $scope.showConfirmation = false;
+                $scope.selectedCar = {};
+                $scope.basePrice = 0;
+                $scope.insuranceCost = 0;
+                $scope.totalPrice = 0;
+            };
+        });
+    </script>
+</body>
+</html>
